@@ -147,8 +147,9 @@ body{
     border: 1px solid rgb(181, 181, 181);
     text-align: center;
     align-items: center;
-    font-size: 0.7em;
+    font-size: 0.8em;
     word-wrap: break-word;
+    font-family: 'ADLaM Display', cursive;
 }
 
 .section-3-row-b1{
@@ -169,6 +170,8 @@ body{
     width: 0;
     flex-grow: 1;
     text-align: center;
+    color: rgb(9, 109, 0);
+    
 }
 
 .gap-1{
@@ -183,5 +186,9 @@ body{
 
 
 .tblock{
+    display: none;
+}
+
+.istemplate{
     display: none;
 }

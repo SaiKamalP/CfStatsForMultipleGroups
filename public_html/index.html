@@ -8,12 +8,11 @@
     <!--fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <!--fonts-end-->
 
     <link rel="stylesheet" href="style.css"/>
     <script defer src="script.js"></script>
-    <script src="html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="non-print">
@@ -21,7 +20,7 @@
     </div>
     <div class="A4-pages">
         <!-- First Page -->
-        <div class="A4-page tblock">
+        <div class="A4-page">
             <div class="first-page-outer">
                 CODEFORCES DIV.2<br>12/05/2005;
             </div>
@@ -30,7 +29,7 @@
         <div class="non-print display-gap"></div>
         
         <!-- group wise participation page -->
-        <div class="A4-width tblock">
+        <div class="A4-width">
             <div class="section-2-continer-outer">
                 <div class="gap-5"></div>
                 <div class="section-2-top-bar">
@@ -38,78 +37,41 @@
                     <p  class="section-2-top-bar-h2"> GROUP</p>
                     <p  class="section-2-top-bar-h3">COUNT</p>  
                 </div>
-                <div class="section-2-row-outer">
+                <div class="section-2-row-outer istemplate">
                     <p class="section-2-row-b1"> 0</p>
                     <p  class="section-2-row-b2"> GROUP-1</p>
                     <p  class="section-2-row-b3">30</p>  
                 </div>
-                <div class="section-2-row-outer">
-                    <p class="section-2-row-b1"> 1</p>
-                    <p  class="section-2-row-b2"> GROUP-2</p>
-                    <p  class="section-2-row-b3">27</p>  
-                </div>
-                <div class="section-2-row-outer">
-                    <p class="section-2-row-b1"> 2</p>
-                    <p  class="section-2-row-b2"> GROUP-3</p>
-                    <p  class="section-2-row-b3">20</p>  
-                </div>
-                <div class="section-2-row-outer">
-                    <p class="section-2-row-b1"> 3</p>
-                    <p  class="section-2-row-b2"> GROUP-4</p>
-                    <p  class="section-2-row-b3">12</p>  
-                </div>
+
             </div>
             <div class="pagebreak"></div>
         </div>
         <div class="non-print display-gap"></div>
 
         <!-- standings page -->
-        <div class="A4-width">
-            <div class="gap-3"></div>
-            <div class="section-3-heading-outer"><p>STANDINGS</p></div>
-            <div class="gap-1"></div>
-            <div class="section-3-top-bar">
-                <p class="section-3-top-bar-h1"> RANK</p>
-                <p  class="section-3-top-bar-h2"> GROUP</p>
-                <p  class="section-3-top-bar-h3">NAME</p> 
-                <p  class="section-3-top-bar-h4">POINTS</p> 
-                <p  class="section-3-top-bar-tag">A</p> 
-                <p  class="section-3-top-bar-tag">B</p> 
-                <p  class="section-3-top-bar-tag">C</p> 
-                <p  class="section-3-top-bar-tag">D</p> 
-                <p  class="section-3-top-bar-tag">E</p> 
-                <p  class="section-3-top-bar-tag">F1</p> 
-                <p  class="section-3-top-bar-tag">F2</p> 
-            </div>
-            <div class="section-3-row-outer">
-                <p class="section-3-row-b1"> 120000</p>
-                <p  class="section-3-row-b2"> Shivalik</p>
-                <p  class="section-3-row-b3">sai_kamal</p>  
-                <p  class="section-3-row-b4">12500</p> 
-                <p  class="section-3-row-tag">4</p> 
-                <p  class="section-3-row-tag">1</p> 
-                <p  class="section-3-row-tag">1</p> 
-                <p  class="section-3-row-tag">2500</p> 
-                <p  class="section-3-row-tag">3000</p> 
-                <p  class="section-3-row-tag">4000</p> 
-                <p  class="section-3-row-tag">5050</p>  
-            </div>
-            <div class="section-3-row-outer">
-                <p class="section-3-row-b1"> 120000</p>
-                <p  class="section-3-row-b2"> Shivalik</p>
-                <p  class="section-3-row-b3">sai_kamal</p>  
-                <p  class="section-3-row-b4">12500</p> 
-                <p  class="section-3-row-tag">4</p> 
-                <p  class="section-3-row-tag">1</p> 
-                <p  class="section-3-row-tag">1</p> 
-                <p  class="section-3-row-tag">2500</p> 
-                <p  class="section-3-row-tag">3000</p> 
-                <p  class="section-3-row-tag">4000</p> 
-                <p  class="section-3-row-tag">5050</p>  
+        <div class="A4-width standings-template istemplate">
+            <div class="section-3-container-outer">
+                <div class="gap-3"></div>
+                <div class="section-3-heading-outer"><p>Overall Standings</p></div>
+                <div class="gap-1"></div>
+                <div class="section-3-top-bar">
+                    <p class="section-3-top-bar-h1"> RANK</p>
+                    <p  class="section-3-top-bar-h2"> GROUP</p>
+                    <p  class="section-3-top-bar-h3">handle</p> 
+                    <p  class="section-3-top-bar-h4">POINTS</p> 
+                    <p  class="section-3-top-bar-tag istemplate">A</p> 
+                </div>
+                <div class="section-3-row-outer istemplate">
+                    <p class="section-3-row-b1"> 120000</p>
+                    <p  class="section-3-row-b2"> Shivalik</p>
+                    <p  class="section-3-row-b3">sai_kamal</p>  
+                    <p  class="section-3-row-b4">12500</p> 
+                    <p  class="section-3-row-tag istemplate">4</p> 
+                </div>
             </div>
             <div class="pagebreak"></div>
         </div>
-        <div class="non-print display-gap"></div>
+
 
     </div>
 </body>

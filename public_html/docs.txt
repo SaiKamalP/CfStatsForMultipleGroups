@@ -1,0 +1,23 @@
+required databases = 1
+databases-1:
+    requries 2 tables
+    table-1:
+        for user details and must include the follow columns
+        1. id ->int
+        2. name -> text
+        3. cf_handle -> text
+        4. in_group -> int
+        5. user_type -> text
+
+        in_group:
+            should contain the id of the group he is in form the groups table.
+            0->default None/No group
+            1 or higher -> in group with that id ( if that group exists else he is in None/No group).
+    
+    table-2:
+        for group details
+        1. id -> int 
+            (must be >=1)
+        2. name -> text
+        3. adminList -> text
+            (string of integers seperated by ,)
