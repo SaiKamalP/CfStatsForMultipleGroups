@@ -1,11 +1,16 @@
 
 let isAdministrator=false;
+let isAdminOfSomeGroup=false;
 async function fetchAndSetUserType(){
     const getUserTypeFetch=await fetch('login/API/getUserType.php');
     const getUserTypeJson=await getUserTypeFetch.json();
     if(getUserTypeJson['status']=='SUCCESS'){
         if(getUserTypeJson['user_type']=='ADMINISTRATOR'){
             isAdministrator=true;
+            isAdminOfSomeGroup=true;
+        }
+        else if(getUserTypeJson['user_type']=='GROUP_ADMIN'){
+            isAdminOfSomeGroup=true;
         }
     }
     else{
@@ -21,6 +26,24 @@ document.querySelector('.add-group-btn').addEventListener('click',function(){
     }
     else{
         alert('You must be an administrator to perform this action.');
+    }
+});
+
+document.querySelector('.get-standings-btn').addEventListener('click',function(){
+    if(isAdminOfSomeGroup){
+        window.location.href="getStandings";
+    }
+    else{
+        alert('You must be an administrator or a group admin to perform this action.');
+    }
+});
+
+document.querySelector('.get-rating-changes-btn').addEventListener('click',function(){
+    if(isAdminOfSomeGroup){
+        alert('This function is under development');
+    }
+    else{
+        alert('You must be an administrator or a group admin to perform this action.');
     }
 });
 

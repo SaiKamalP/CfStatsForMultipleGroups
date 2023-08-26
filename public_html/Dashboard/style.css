@@ -52,6 +52,40 @@ body{
     background-color: rgba(0,0,0,0.1);
 
 }
+.get-standings-btn{
+    height: 100%;
+    width: 20%;
+    margin-left: 10%;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: flex-end;
+    color: rgb(206, 206, 206);
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: rgba(0,0,0,0.1);
+
+}
+.get-rating-changes-btn{
+    height: 100%;
+    width: 20%;
+    margin-left: 10%;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: flex-end;
+    color: rgb(206, 206, 206);
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 20px;
+    background-color: rgba(0,0,0,0.1);
+
+}
 
 .group-tiles-outer{
     width: 80%;

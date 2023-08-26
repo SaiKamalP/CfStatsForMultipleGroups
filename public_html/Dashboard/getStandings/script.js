@@ -12,7 +12,10 @@ function clearPreviousPdf(){
 }
 function getPdfStandings(contestId){
     clearPreviousPdf();
-    fetch("Dashboard/login/API/getUsers.php").then(responce=>responce.json()).then(data=>{
+    fetch("../login/API/getUsers.php").then(responce=>responce.json()).then(data=>{
+        if(data['status']=='FAILED'){
+            return;
+        }
         const users=data.users;
         let cfusersStringForCFAPI="";
         users.forEach(usr => {
@@ -185,11 +188,22 @@ function getPdfStandings(contestId){
             
         
             });
+            setTimeout(function(){
+                window.print();
+            },3000);
+
         });
     });
     
 }
 
+function temporarlyAskForContestId(){
+    const contest_id=prompt("Enter the contest ID.");
+    getPdfStandings(contest_id);
+
+}
+
+temporarlyAskForContestId();
 
 
 function getColor(x){

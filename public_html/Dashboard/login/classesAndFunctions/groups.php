@@ -13,7 +13,7 @@
         try{
             $conn = mysqli_connect($host, $username, $password, $dbName);
 
-            $query = "INSERT INTO `".$cfGroupsTableName."`(`id`, `name`, `adminList`, `memberList`, `description`) VALUES (NULL, ?,'','','')";
+            $query = "INSERT INTO `".$cfGroupsTableName."`(`id`, `name`, `adminList`, `description`) VALUES (NULL, ?,'','')";
             
             $prepareStmt = mysqli_prepare($conn, $query);
             if (!$prepareStmt) {

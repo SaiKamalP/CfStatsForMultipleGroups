@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__."/../classesAndFunctions/jwsTokenVerification.php";
     require_once __DIR__."/../classesAndFunctions/getUsers.php";
+    require_once __DIR__."/../classesAndFunctions/getUserType.php";
     header('Content-Type: application/json');
 
     function returnFailedStatus()
@@ -15,6 +16,15 @@
 
     $jwtResult =getJWTAuthResult();
     if ($jwtResult==null) { returnFailedStatus();}
+
+    $userTypeFetch=getUserType($jwtResult['payload']['sub']);
+    if($userTypeFetch['status']=='FAILED'){
+        returnFailedStatus();
+    }
+    $userType=$userTypeFetch['result'];
+    if($userType!='ADMINISTRATOR' && $userType!='GROUP_ADMIN' ){
+        returnFailedStatus();
+    }
 
     $userDetailsArrayFetch = getUsersArray();
     if($userDetailsArrayFetch['status']=='FAILED'){
