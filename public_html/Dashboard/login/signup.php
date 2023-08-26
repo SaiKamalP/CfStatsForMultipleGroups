@@ -1,6 +1,10 @@
 <?php 
-    require_once __DIR__."/dbAndOtherDetails.php";
-    require_once __DIR__."/verifyReCaptcha.php";
+    error_reporting(E_ALL);
+
+    // Display errors on the fly
+    ini_set('display_errors', '1');
+    require_once __DIR__."/classesAndFunctions/dbAndOtherDetails.php";
+    require_once __DIR__."/classesAndFunctions/verifyReCaptcha.php";
 
     if(!verifyReCaptcha()){
         die("\nFAILED ReCaptcha");
@@ -59,10 +63,11 @@
                 if($insertStmt){
                     $insertStmt->bind_param("ssss",$clientName,$ClientEmail,$ClientCf_handle,$ClientPassword);
                     if($insertStmt->execute()){
-                        die("DONE INSERTING");
+                        header("Location: .");
+                        exit;
                     }
                     else{
-                        die("FAILED TO INSERT");
+                        die("FAILED TO EXECUTE");
                     }
                 }
                 else{

@@ -12,9 +12,9 @@ async function fetchAndSetUserType(){
             isGroupAdmin=true;
         }
         else{
-            const getIsUserAdminJosn=await (await fetch("../login/API/isGroupAdmin.php?group_id="+group_id)).json();
-            if(getIsUserAdminJosn['status']=='SUCCESS'){
-                if(getUserTypeJson['isGroupAdmin']==true){
+            const getIsUserAdminJson=await (await fetch("../login/API/isGroupAdmin.php?group_id="+group_id)).json();
+            if(getIsUserAdminJson['status']=='SUCCESS'){
+                if(getIsUserAdminJson['isGroupAdmin']==true){
                     isGroupAdmin=true;
                 }
             }
@@ -84,10 +84,17 @@ function loadMembersFormUsers(users){
             members_row_clone.querySelector(".member-row-member-type").innerHTML="";
 
         }
+        const userIdFinal=user['id'];
+        const userHandelFinal=user['cf_handle'];
+        members_row_clone.querySelector(".member-row-options-btn").addEventListener('click',function(){
+            showOptionsForUser(userIdFinal,userHandelFinal);
+        });
         sn++;
         members_container.appendChild(members_row_clone);
     });
 }
+
+
 
 function getLevel(x){
     if(x<1200){
@@ -126,5 +133,53 @@ function getLevel(x){
     return 'Legendary Grandmaster';
 }
 
+let selectedUserId,selectedUserHandle;
+function showOptionsForUser(user_id,userHandle){
+    selectedUserHandle=userHandle;
+    selectedUserId=user_id;
+    document.querySelector('.user-options-window-outer').style.display='block';
+    
+}
 
+function promoteToGroupAdmin(token){
+    document.getElementById('user-option-promote-to-group-admin-group-id').value=group_id;
+    document.getElementById('user-option-promote-to-group-admin-selected-handle').value=selectedUserHandle;
+    
+    document.getElementById('user-option-promote-to-group-admin').submit();
+}
+function demoteFromGroupAdmin(token){
+    document.getElementById('user-option-demote-from-group-admin-group-id').value=group_id;
+    document.getElementById('user-option-demote-from-group-admin-selected-handle').value=selectedUserHandle;
+    
+    document.getElementById('user-option-demote-from-group-admin').submit();
+ 
+}
+function removeFromGroup(token){
+    document.getElementById('user-option-remove-from-group-group-id').value=group_id;
+    document.getElementById('user-option-remove-from-group-selected-handle').value=selectedUserHandle;
+    
+    document.getElementById('user-option-remove-from-group').submit();
 
+}
+function promoteToAdministrator(token){
+    document.getElementById('user-option-promote-to-administrator-group-id').value=group_id;
+    document.getElementById('user-option-promote-to-administrator-selected-handle').value=selectedUserHandle;
+    
+    document.getElementById('user-option-promote-to-administrator').submit();
+
+}
+function demoteFromAdministrator(token){
+    document.getElementById('user-option-demote-from-administrator-group-id').value=group_id;
+    document.getElementById('user-option-demote-from-administrator-selected-handle').value=selectedUserHandle;
+    
+    document.getElementById('user-option-demote-from-administrator').submit();
+
+}
+
+document.querySelector('.user-options-window-outer').addEventListener('click',function(){
+
+    document.querySelector('.user-options-window-outer').style.display='none';
+});
+document.querySelector('.user-options-window').addEventListener('click',function(event){
+    event.stopPropagation();
+});

@@ -122,11 +122,9 @@
                 }
                 $row=$result->fetch_assoc();
                 $adminString=$row['adminList'];
-                if($adminString==null || empty($adminArray)){
+                $adminArray=json_decode($adminString,true);
+                if($adminArray==null){
                     $adminArray=array();
-                }
-                else{
-                    $adminArray=json_decode($adminString,true);
                 }
 
                 $isAdmin=false;
@@ -263,13 +261,87 @@
         }
     }
 
-    function promoteToGroupAdmin($userHandle,$group_id){
-        $userType=getUserType($userHandle);
-        if($userType==null){
+    function removeUserFromGroup($userHandle,$group_id){
+        $demoteFromGroupAdminFetch =demoteFromGroupAdmin($userHandle,$group_id);
+        if($demoteFromGroupAdminFetch['status']=='FAILED'){
             return array(
                 'status' => 'FAILED'
             );
         }
+        if($demoteFromGroupAdminFetch['result']==false){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        global $host,$username,$password,$dbName;
+        global $cfUsersTableName;
+        try{
+            $conn = mysqli_connect($host, $username, $password, $dbName);
+
+            $query = "SELECT `in_group` FROM `" . $cfUsersTableName . "` WHERE `cf_handle`=?";
+            $prepareStmt = mysqli_prepare($conn, $query);
+            if (!$prepareStmt) {
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+
+            $prepareStmt->bind_param("s", $userHandle);
+            if (!$prepareStmt->execute()) {
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+
+            $queryResult = $prepareStmt->get_result();
+            if (!($queryResult->num_rows > 0)) {
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+
+            $row = $queryResult->fetch_assoc();
+            if($row['in_group']!=$group_id){
+                return array(
+                    'status' => 'SUCCESS',
+                    'result' => false
+                );
+            }
+
+            $query = "UPDATE `".$cfUsersTableName."` SET `in_group`=0 WHERE `cf_handle`=?";
+            $prepareStmt = mysqli_prepare($conn, $query);
+            if (!$prepareStmt) {
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            $prepareStmt->bind_param("s",$userHandle);
+            if (!$prepareStmt->execute()) {
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            return array(
+                'status' => 'SUCCESS',
+                'result' => true
+            );
+
+        }
+        catch(Exception $e){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+    }
+
+    function promoteToGroupAdmin($userHandle,$group_id){
+        $userTypeFetch=getUserType($userHandle);
+        if($userTypeFetch['status']=='FAILED'){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        $userType=$userTypeFetch['result'];
         if($userType=="ADMINISTRATOR"){
             return array(
                 'status' => 'SUCCESS',
@@ -291,7 +363,7 @@
         }
         
         global $host,$username,$password,$dbName;
-        global $cfGroupsTableName;
+        global $cfGroupsTableName,$cfUsersTableName;
         try{
             $conn = mysqli_connect($host, $username, $password, $dbName);
 
@@ -324,10 +396,14 @@
                 }
                 $row=$result->fetch_assoc();
                 $adminString=$row['adminList'];
+
                 $adminArray=json_decode($adminString,true);
+                if($adminArray==null){
+                    $adminArray=array();
+                }
                 array_push($adminArray,$userId);
                 $adminString=json_encode($adminArray);
-                $query="UPDATE `cfGroups` SET `adminList`=? WHERE `id`=?";
+                $query="UPDATE `".$cfGroupsTableName."` SET `adminList`=? WHERE `id`=?";
                 $prepareStmt=mysqli_prepare($conn,$query);
                 if (!$prepareStmt) {
                     return array(
@@ -335,6 +411,20 @@
                     );
                 }
                 $prepareStmt->bind_param("si",$adminString,$group_id);
+                if (!$prepareStmt->execute()) {
+                    return array(
+                        'status' => 'FAILED'
+                    );
+                }
+
+                $query="UPDATE `".$cfUsersTableName."` SET `user_type`='GROUP_ADMIN' WHERE `id`=?";
+                $prepareStmt=mysqli_prepare($conn,$query);
+                if (!$prepareStmt) {
+                    return array(
+                        'status' => 'FAILED'
+                    );
+                }
+                $prepareStmt->bind_param("i",$userId);
                 if (!$prepareStmt->execute()) {
                     return array(
                         'status' => 'FAILED'
@@ -363,7 +453,145 @@
         );
         
     }
-    function promoteToAdministrator($userHandle){
+
+    function demoteFromGroupAdmin($userHandle,$group_id){
+        $userTypeFetch=getUserType($userHandle);
+        if($userTypeFetch['status']=='FAILED'){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        $userType=$userTypeFetch['result'];
+        if($userType=="ADMINISTRATOR"){
+            return array(
+                'status' => 'SUCCESS',
+                'result' => true
+            );
+        }
+        $isHeAdminOfGroupFetch=isGroupAdmin($userHandle,$group_id);
+        if($isHeAdminOfGroupFetch['status']=='FAILED'){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        $isHeAdminOfGroup=$isHeAdminOfGroupFetch['result'];
+        if($isHeAdminOfGroup==true){
+            global $host,$username,$password,$dbName;
+            global $cfGroupsTableName,$cfUsersTableName;
+            try{
+                $conn = mysqli_connect($host, $username, $password, $dbName);
+
+                $query = "SELECT `adminList` FROM `".$cfGroupsTableName."` WHERE `id`=?";
+                $prepareStmt = mysqli_prepare($conn, $query);
+                if (!$prepareStmt) {
+                    return array(
+                        'status' => 'FAILED'
+                    );
+                }
+                $prepareStmt->bind_param("i",$group_id);
+                if (!$prepareStmt->execute()) {
+                    return array(
+                        'status' => 'FAILED'
+                    );
+                }
+                $result=$prepareStmt->get_result();
+                if($result->num_rows>0){
+                    $userIdFetch=getUserIdFromUserName($userHandle);
+                    if($userIdFetch['status']=='FAILED'){
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+                    $userId=$userIdFetch['result'];
+                    if($userId==null || empty($userId)){
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+                    $row=$result->fetch_assoc();
+                    $adminString=$row['adminList'];
+
+                    $adminArray=json_decode($adminString,true);
+                    if($adminArray==null){
+                        $adminArray=array();
+                    }
+                    $newAdminArray=array();
+                    foreach($adminArray as $adminId){
+                        if($adminId!=$userId){
+                            array_push($newAdminArray,$adminId);
+                        }
+                    }
+                    $adminString=json_encode($newAdminArray);
+                    $query="UPDATE `".$cfGroupsTableName."` SET `adminList`=? WHERE `id`=?";
+                    $prepareStmt=mysqli_prepare($conn,$query);
+                    if (!$prepareStmt) {
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+                    $prepareStmt->bind_param("si",$adminString,$group_id);
+                    if (!$prepareStmt->execute()) {
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+
+                    $query="UPDATE `".$cfUsersTableName."` SET `user_type`='NORMAL' WHERE `id`=?";
+                    $prepareStmt=mysqli_prepare($conn,$query);
+                    if (!$prepareStmt) {
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+                    $prepareStmt->bind_param("i",$userId);
+                    if (!$prepareStmt->execute()) {
+                        return array(
+                            'status' => 'FAILED'
+                        );
+                    }
+                    return array(
+                        'status' => 'SUCCESS',
+                        'result' =>true
+                    );
+                    
+                }
+                else{
+                    return array(
+                        'status' => 'FAILED'
+                    );
+                }
+                
+            }
+            catch(Exception $e){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        else{
+            return array(
+                'status' => 'SUCCESS',
+                'result' => true
+            );
+        }
+        
+        
+    }
+    function promoteToAdministrator($userHandle,$group_id){
+        $demoteFromGroupAdminFetch =demoteFromGroupAdmin($userHandle,$group_id);
+        if($demoteFromGroupAdminFetch['status']=='FAILED'){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        if($demoteFromGroupAdminFetch['result']==false){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
         global $host,$username,$password,$dbName;
         global $cfUsersTableName;
         $conn = mysqli_connect($host, $username, $password, $dbName);
@@ -387,5 +615,31 @@
             'result' => true
         );
     }
+
+    function demoteFromAdministrator($userHandle){
+        global $host,$username,$password,$dbName;
+        global $cfUsersTableName;
+        $conn = mysqli_connect($host, $username, $password, $dbName);
+
+        $query = "UPDATE `".$cfUsersTableName."` SET `user_type`='NORMAL' WHERE `cf_handle`=?";
+        $prepareStmt = mysqli_prepare($conn, $query);
+        if (!$prepareStmt) {
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+
+        $prepareStmt->bind_param("s", $userHandle);
+        if (!$prepareStmt->execute()) {
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        return array(
+            'status' => 'SUCCESS',
+            'result' => true
+        );
+    }
+
 
 ?>

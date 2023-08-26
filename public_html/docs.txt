@@ -8,7 +8,7 @@ databases-1:
         3. cf_handle -> text
         4. in_group -> int
         5. user_type -> text
-
+        6. rating -> int 
         in_group:
             should contain the id of the group he is in form the groups table.
             0->default None/No group
@@ -28,7 +28,8 @@ databases-1:
 File you need to change:
     1. Under Dashboard/login/classesAndFunctions/dbAndOtherDetails.php
     2. You need to change the recaptch public key also.
-        currently they are used at 4 positions
+        currently they are used at 9 positions
             1. 2 times - Under login/index.html for signup and login btns.
             2. Under Dashboard/index.html when Admin clicks on add group and in that window there is an add btn using recaptcha.
             3. Under /Dashboard/group/index.html when add members btn clicked in the windows there is an add btn using recaptcha.
+            4. 5 times under /Dashboard/group/index.html when users selects options in option panel
