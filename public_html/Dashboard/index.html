@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <link rel="stylesheet" href="style.css"/>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="top-bar">
+
+    </div>
+    <div class="gap-5"></div>
+    <div class="add-group-btn-row">
+        <div class="add-group-btn">+ GROUP</div>
+    </div>
+    <div class="gap-3"></div>
+    <div class="group-tiles-outer">
+        <div class="group-tile istemplate">
+            <div class="group-title">
+                Shivalik
+            </div>
+            <div class="group-tile-line-divider"></div>
+            <div class="group-description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam aliquam possimus tempora hic! Ex, quam libero ipsum, laboriosam nulla debitis minus magni obcaecati consequatur eum officiis fugiat quo velit officia?
+            </div>
+        </div>
+    </div>
+    <div class="add-group-window-outer">
+        <div class="add-group-window-inner">
+            <div class="add-group-window">
+                <div class="add-group-widow-title">Add Group</div>
+                <div class="add-group-window-image-outer"></div>
+                <form action="login/API/addGroup.php" id="add-group-form" class="add-group-form" method="POST">
+                    <div class="input-box-outer">
+                        <div class="input-box-img-outer"></div>
+                        <input type="text"  name="group-name" id="group-name" class="input-box" placeholder="Group Name"  required/>
+                    </div>
+                    <div class="form-submit-outer">
+                        <button type="submit" id="signup-btn" class="g-recaptcha form-submit-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='onSubmitAddGroup' data-action='submit'>ADD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

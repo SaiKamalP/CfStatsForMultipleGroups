@@ -20,4 +20,15 @@ databases-1:
             (must be >=1)
         2. name -> text
         3. adminList -> text
-            (string of integers seperated by ,)
+            (this will we a json array containing the user id).
+        4. description -> text
+            (may  be something about the group).
+
+
+File you need to change:
+    1. Under Dashboard/login/classesAndFunctions/dbAndOtherDetails.php
+    2. You need to change the recaptch public key also.
+        currently they are used at 4 positions
+            1. 2 times - Under login/index.html for signup and login btns.
+            2. Under Dashboard/index.html when Admin clicks on add group and in that window there is an add btn using recaptcha.
+            3. Under /Dashboard/group/index.html when add members btn clicked in the windows there is an add btn using recaptcha.

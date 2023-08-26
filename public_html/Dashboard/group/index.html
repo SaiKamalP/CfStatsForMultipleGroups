@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!--fonts-end-->
+    <link rel="stylesheet" href="style.css"/>
+    <script defer src="script.js"></script>
+
+</head>
+<body>
+    <div class="top-bar">
+
+    </div>
+    <div class="gap-3"></div>
+    <div class="add-member-btn-row">
+        <div class="add-member-btn">+ USERS</div>
+        <div class="group-title">Shivalik</div>
+    </div>
+    <div class="gap-3"></div>
+    <div class="members-container">
+        <div class="member-row-outer istemplate">
+            <div class="member-row-sn">0</div>
+            <div class="member-row-handle">sai_kamal</div>
+            <div class="member-row-rating-name">Specalist</div>
+            <div class="member-row-rating">1672</div>
+            <div class="member-row-member-type">ADMINISTRATOR</div>
+            <div class="member-row-options">Options</div>
+        </div>
+    </div>
+    <div class="add-members-window-outer">
+        <div class="add-members-window-inner">
+            <div class="add-members-window">
+                <div class="add-members-window-title">Add Members</div>
+                <form class="add-members-form" id="add-members-form" action="../login/API/addMembersToGroup.php" method="POST">
+                    <div class="add-members-form-container">
+                        <div class="add-members-input-box">
+                            <textarea name="members-list" class="add-members-textarea" rows="10" placeholder="Separate handles by line or a space" required></textarea>
+                            <input type="text" name="group_id" id="add-members-form-group-id" style="visibility: hidden;"/>
+                        </div>
+                        <div class="add-members-form-submit-btn-row">
+                            <button class="g-recaptcha add-member-form-submit " data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='onSubmitAddMembers' data-action='submit'>ADD MEMBERS</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+   
+</body>
+</html>

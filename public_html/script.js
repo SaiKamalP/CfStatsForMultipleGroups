@@ -12,7 +12,7 @@ function clearPreviousPdf(){
 }
 function getPdfStandings(contestId){
     clearPreviousPdf();
-    fetch("getUsers.php").then(responce=>responce.json()).then(data=>{
+    fetch("Dashboard/login/API/getUsers.php").then(responce=>responce.json()).then(data=>{
         const users=data.users;
         let cfusersStringForCFAPI="";
         users.forEach(usr => {
