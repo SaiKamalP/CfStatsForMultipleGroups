@@ -19,6 +19,19 @@ async function fetchAndSetUserType(){
 }
 fetchAndSetUserType();
 
+function showMessage(){
+    const messageId=new URLSearchParams(window.location.search).get('m');
+  
+    switch(messageId){
+      case '0':
+        alert("Something went wrong. Please try again later");
+        break;
+      default:
+        break;
+    }
+}
+showMessage();
+
 document.querySelector('.add-group-btn').addEventListener('click',function(){
     if(isAdministrator){
         document.querySelector('.add-group-window-outer').style.display="block";

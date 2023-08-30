@@ -1,4 +1,30 @@
 
+
+function showMessage(){
+  const messageId=new URLSearchParams(window.location.search).get('m');
+
+  switch(messageId){
+    case '0':
+      alert("Something went wrong. Please try again later");
+      break;
+    case '1':
+      alert("Joined the successfully, now get in");
+      break;
+    case '2':
+      alert("Handle already registered.");
+      break;
+    case '3':
+      alert("Incorrect handle or password.");
+      break;
+    default:
+      break;
+  }
+}
+showMessage();
+
+
+
+
 let loginBtnStatus=1;
 function onSubmitLogin(token) {
   if(loginBtnStatus==1){

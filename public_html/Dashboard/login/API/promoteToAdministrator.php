@@ -4,14 +4,12 @@
     require_once __DIR__."/../classesAndFunctions/getUserType.php";
     require_once __DIR__."/../classesAndFunctions/groups.php";
     if(!verifyReCaptcha()){
-        echo "RECAPTCHA verification failed";
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../?m=0"); //getiing back to dashboard
         exit;
     }
     $JWTResult=getJWTAuthResult();
     if($JWTResult==null){
-        echo "JWT AUTH FAILED";
-        header('Location: ../'); //goto login page.
+        header('Location: ../?m=0'); //goto login page.
         exit;
     }
     $userhandle=$JWTResult['payload']['sub'];
@@ -22,7 +20,7 @@
     $isAllowedToPromoteToAdministrator=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -31,7 +29,7 @@
     }
     
     if(!$isAllowedToPromoteToAdministrator){
-        header("Location: ../../");
+        header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
 
@@ -42,12 +40,12 @@
             exit;
         }
         else{
-            header("Location: ../../");
+            header("Location: ../../?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-        header("Location: ../../");
+        header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
     

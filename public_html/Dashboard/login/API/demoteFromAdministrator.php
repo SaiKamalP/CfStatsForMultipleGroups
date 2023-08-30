@@ -4,14 +4,12 @@
     require_once __DIR__."/../classesAndFunctions/getUserType.php";
     require_once __DIR__."/../classesAndFunctions/groups.php";
     if(!verifyReCaptcha()){
-        echo "RECAPTCHA verification failed";
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../?m=0"); //getiing back to dashboard
         exit;
     }
     $JWTResult=getJWTAuthResult();
     if($JWTResult==null){
-        echo "JWT AUTH FAILED";
-        header('Location: ../'); //goto login page.
+        header('Location: ../?m=0'); //goto login page.
         exit;
     }
     $userhandle=$JWTResult['payload']['sub'];
@@ -22,7 +20,7 @@
     $isAllowedToDemoteFromAdministrator=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../group/?g=".$group_id."&m=0"); //getiing back to dashboard
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -31,23 +29,23 @@
     }
     
     if(!$isAllowedToDemoteFromAdministrator){
-        header("Location: ../../");
+        header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
 
     $demoteFromAdministratorFetch=demoteFromAdministrator($handleToBeDemotedFromAdministrator,$group_id);
     if($demoteFromAdministratorFetch['status']=='SUCCESS'){
         if($demoteFromAdministratorFetch['result']==true){
-            header("Location: ../../");
+            header("Location: ../../group");
             exit;
         }
         else{
-            header("Location: ../../");
+            header("Location: ../../?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-        header("Location: ../../");
+        header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
     

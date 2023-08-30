@@ -1,6 +1,17 @@
 
 const group_id=new URLSearchParams(window.location.search).get('g');
-
+function showMessage(){
+    const messageId=new URLSearchParams(window.location.search).get('m');
+  
+    switch(messageId){
+      case '0':
+        alert("Something went wrong. Please try again later");
+        break;
+      default:
+        break;
+    }
+}
+showMessage();
 let isGroupAdmin=false;
 let isAdministrator=false;
 async function fetchAndSetUserType(){

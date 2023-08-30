@@ -6,14 +6,12 @@
     require_once __DIR__."/../classesAndFunctions/groups.php";
 
     if(!verifyReCaptcha()){
-        echo "RECAPTCHA verification failed";
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../?m=0"); //getiing back to dashboard
         exit;
     }
     $JWTResult=getJWTAuthResult();
     if($JWTResult==null){
-        echo "JWT AUTH FAILED";
-        header('Location: ../'); //goto login page.
+        header('Location: ../?m=0'); //goto login page.
         exit;
     }
     $userhandle=$JWTResult['payload']['sub'];
@@ -24,7 +22,7 @@
     $isAllowedToRemoveUserFromGroup=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -34,7 +32,7 @@
     else if($userType=='GROUP_ADMIN'){
         $isGroupAdminOfGroupIdFetch=isGroupAdmin($userhandle,$group_id);
         if($isGroupAdminOfGroupIdFetch['status']=='FAILED'){
-            header("Location: ../../"); //getiing back to dashboard
+            header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
             exit;
         }
         $isGroupAdminOfGroupId=$isGroupAdminOfGroupIdFetch['result'];
@@ -43,7 +41,7 @@
         }
     }
     if(!$isAllowedToRemoveUserFromGroup){
-        header("Location: ../../");
+        header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
 
@@ -54,12 +52,12 @@
             exit;
         }
         else{
-            header("Location: ../../");
+            header("Location: ../../?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-       header("Location: ../../");
+       header("Location: ../../?g=".$group_id."&m=0");
         exit;
     }
     

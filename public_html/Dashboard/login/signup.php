@@ -5,9 +5,16 @@
     ini_set('display_errors', '1');
     require_once __DIR__."/classesAndFunctions/dbAndOtherDetails.php";
     require_once __DIR__."/classesAndFunctions/verifyReCaptcha.php";
-
+    function failedAttemptGetBackToLoginPage(){
+        header("Location: .?m=0");
+        exit;
+    }
+    function getBackToLoginPage($m){
+        header("Location: .?m=".$m);
+        exit;
+    }
     if(!verifyReCaptcha()){
-        die("\nFAILED ReCaptcha");
+        failedAttemptGetBackToLoginPage();
     }
 
     function isAValidString($string){
@@ -33,7 +40,7 @@
     $ClientPassword=$_POST['signup-password'];
 
     if((!isAValidName($clientName)) || (!isAValidName($ClientCf_handle)) || (!isAValidName($ClientEmail,80)) || (!isAValidName($ClientPassword,100))){
-        die("Invalid credentials");
+        failedAttemptGetBackToLoginPage();
     }
 
     $ch=curl_init("https://codeforces.com/api/user.info?handles=".$ClientCf_handle);
@@ -41,7 +48,7 @@
     $responce=curl_exec($ch);
     $responce=json_decode($responce,true);
     if(!($responce['status']=="OK")){
-        die("Invalid credentials");
+        failedAttemptGetBackToLoginPage();
     }
     $ClientPassword=hash('sha256',$GIBRISH1.$ClientPassword.$GIBRISH2);
 
@@ -55,7 +62,7 @@
         if($stmt->execute()){
             $result=$stmt->get_result();
             if($result->num_rows >0){
-                die("Handle already Registered, please login");
+                getBackToLoginPage("2");
             }
             else{
                 $newUserInsertQuery="INSERT INTO `".$cfUsersTableName."`(`id`, `name`, `email`, `cf_handle`, `password`, `in_group`, `user_type`) VALUES (NULL,?,?,?,?,'0','NORMAL')";
@@ -63,25 +70,25 @@
                 if($insertStmt){
                     $insertStmt->bind_param("ssss",$clientName,$ClientEmail,$ClientCf_handle,$ClientPassword);
                     if($insertStmt->execute()){
-                        header("Location: .");
+                        getBackToLoginPage("1");
                         exit;
                     }
                     else{
-                        die("FAILED TO EXECUTE");
+                        failedAttemptGetBackToLoginPage();
                     }
                 }
                 else{
-                    die("Problem in server side, failed to execute statement.");
+                    failedAttemptGetBackToLoginPage();
 
                 }
             }
         }
         else{
-            die("Problem in server side, failed to execute statement.");
+            failedAttemptGetBackToLoginPage();
         }
     }
     else{
-        die("Problem in server side, failed to prepare statement.");
+        failedAttemptGetBackToLoginPage();
     }
 
 

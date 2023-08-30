@@ -2,9 +2,17 @@
     require_once __DIR__."/classesAndFunctions/jwsAuth/JWS.php";
     require_once __DIR__."/classesAndFunctions/dbAndOtherDetails.php";
     require_once __DIR__."/classesAndFunctions/verifyReCaptcha.php";
-    
+    function failedAttemptGetBackToLoginPage(){
+        header("Location: .?m=0");
+        exit;
+    }
+    function getBackToLoginPage($m){
+        header("Location: .?m=".$m);
+        exit;
+    }
+
     if(!verifyReCaptcha()){
-        die("\nFAILED ReCaptcha");
+        failedAttemptGetBackToLoginPage();
     }
     
     function isAValidString($string){
@@ -29,7 +37,7 @@
     $clientUsername=$_POST['login-username'];
     $clientPassword=$_POST['login-password'];
     if(!isAValidName($clientUsername) || !isAValidName($clientPassword,100)){
-        die("bad username or password");
+        getBackToLoginPage("3");
     }
     else{
         $clientPassword=hash('sha256',$GIBRISH1.$clientPassword.$GIBRISH2);
@@ -59,28 +67,23 @@
                         $jwsTokenGenerated=$jws->encode($headers, $payload, $key);
                         
                         setcookie('jwtToken',$jwsTokenGenerated,time()+604800,'','',false,true);
-                        echo "SUCCESS ".$row1['user_type'];
                         header('Location: ../');
                         exit;
                     }
                     else{
-                        header("location: .");
-                        die("Username or Password is incorect.");
+                        getBackToLoginPage("3");
                     }
                 }
                 else{
-                    header("location: .");
-                    die("Failed to execute the statement.");
+                    failedAttemptGetBackToLoginPage();
                 }
             }
             else{
-                header("location: .");
-                die("Failed to make prepare statement.");
+                failedAttemptGetBackToLoginPage();
             }
         }
         else{
-            header("location: .");
-            die("Failed to connect to database.");
+            failedAttemptGetBackToLoginPage();
         }
         
     }

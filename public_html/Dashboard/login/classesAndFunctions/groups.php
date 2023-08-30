@@ -223,7 +223,8 @@
             $queryResult = $prepareStmt->get_result();
             if (!($queryResult->num_rows > 0)) {
                 return array(
-                    'status' => 'FAILED'
+                    'status' => 'SUCCESS',
+                    'result' => false
                 );
             }
 

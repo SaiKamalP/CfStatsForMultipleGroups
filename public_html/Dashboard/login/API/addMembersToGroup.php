@@ -4,14 +4,14 @@
     require_once __DIR__."/../classesAndFunctions/getUserType.php";
     require_once __DIR__."/../classesAndFunctions/groups.php";
     if(!verifyReCaptcha()){
-        echo "RECAPTCHA verification failed";
-        header("Location: ../../"); //getiing back to dashboard
+        //recaptcha failed
+        header("Location: ../../?m=0"); //getiing back to dashboard
         exit;
     }
     $JWTResult=getJWTAuthResult();
     if($JWTResult==null){
-        echo "JWT AUTH FAILED";
-        header('Location: ../'); //goto login page.
+        //JWT auth failed
+        header('Location: ../?m=0'); //goto login page.
         exit;
     }
     $userhandle=$JWTResult['payload']['sub'];
@@ -22,7 +22,7 @@
     $isAllowdToAddMembers=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../"); //getiing back to dashboard
+        header("Location: ../../group/?g=".$group_id."&m=0"); //getting back to groups page
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -32,8 +32,7 @@
     else if($userType=='GROUP_ADMIN'){
         $isGroupAdminOfGroupIdFetch=isGroupAdmin($userhandle,$group_id);
         if($isGroupAdminOfGroupIdFetch['status']=='FAILED'){
-            header("Location: ../../"); //getiing back to dashboard
-            exit;
+            header("Location: ../../group/?g=".$group_id."&m=0"); //getting back to groups page
         }
         $isGroupAdminOfGroupId=$isGroupAdminOfGroupIdFetch['result'];
         if($isGroupAdminOfGroupId==true){
@@ -41,7 +40,7 @@
         }
     }
     if(!$isAllowdToAddMembers){
-        header("Location: ../../");
+        header("Location: ../../group/?g=".$group_id."&m=0");
         exit;
     }
     $handlesList=preg_split('/\s+/', $handlesListString, -1, PREG_SPLIT_NO_EMPTY);
@@ -51,23 +50,30 @@
             $addUserToGroupFetch=addUserToGroup($handle,$group_id);
             if($addUserToGroupFetch['status']=='SUCCESS'){
                 if($addUserToGroupFetch['result']){
-                    echo "ADDED handle :".$handle."<br>";
+                    //able to successfully add the handle.
                 }
                 else{
-                    echo "Couldn't add handle : ".$handle." may be already in group or other group<br>";
+                    echo "Couldn't add handle : ".$handle." may be already in group or other group or not registered<br>";
+                    $ableToAddAllHandels=false;
 
                 }
 
             }
             else{
                 echo "Failed to add handle : ".$handle." from server side<br>";
+                $ableToAddAllHandels=false;
 
             }
           
         }
         else{
             echo 'Not A Valid Handle : '.$handle.'<br>';
+            $ableToAddAllHandels=false;
         }
+    }
+    if($ableToAddAllHandels){
+        header("Location: ../../group?g=".$group_id);
+        exit;
     }
     exit;
     
