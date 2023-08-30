@@ -5,10 +5,12 @@ databases-1:
         for user details and must include the follow columns
         1. id ->int
         2. name -> text
-        3. cf_handle -> text
-        4. in_group -> int
-        5. user_type -> text
-        6. rating -> int 
+        3. email -> text
+        4. cf_handle -> text
+        5. password ->text (will be storing the hash of users password.)
+        6. in_group -> int
+        7. user_type -> text
+        8. rating -> int 
         in_group:
             should contain the id of the group he is in form the groups table.
             0->default None/No group
@@ -33,3 +35,41 @@ File you need to change:
             2. Under Dashboard/index.html when Admin clicks on add group and in that window there is an add btn using recaptcha.
             3. Under /Dashboard/group/index.html when add members btn clicked in the windows there is an add btn using recaptcha.
             4. 5 times under /Dashboard/group/index.html when users selects options in option panel
+
+To start using:-
+    The code is desined to work in the following priniple:
+        There should be an ADMINISTRATOR in the database.
+            So first signup a user then in the databases of users explicitly put change the user type to "ADMINISTRATOR" without the quotes.
+            (This is the last time you ever need to touch the database)
+        
+        There are three types of users with the following permissions:-
+            1. NORMAL:
+                    A NORMAL user can login and view the groups and users in the groups.
+                    he is present is one group or no group, but not in multiple groups.
+
+            2. GROUP_ADMIN:
+                    A GROUP_ADMIN is a NORMAL user who is admin of the group.
+                    There can be multiple admins for a group.
+
+                    A GROUP_ADMIN can ADD/REMOVE a USER to his group.
+                        ADD -> works only if the the person to be added is in no other group.
+
+                    A GROUP_ADMIN can promote a NORMAL to GROUP_ADMIN of the group.
+                        This works only if both the GROUP_ADMIN and the one being promoted belong to same group.
+
+                    A GROUP_ADMIN can demote a GROUP_ADMIN to NORMAL user(INCLUDING HIMSELF).
+                        This works only if both the GROUP_ADMIN and the one begin demoted is/are present in same group.
+
+            3. ADMINISTRATOR:
+                    An ADMINISTRATOR is a NORMAL user but with all the privileges as a GROUP_ADMIN for all the groups.
+                    that is an ADMINISTRATOR can act like a GROUP_ADMIN in any group even if he is not present in the group.
+
+                    An ADMINISTRATOR can create a GROUP.
+
+                    An ADMINISTRATOR can promoted other users to ADMINISTRATOR.
+
+                    An ADMINISTRATOR can demote an other ADMINISTRATOR (but not HIMSELF) to a NORMAL user.
+                    (This thing ensures that there is at least one ADMINISTRATOR always present).
+            
+
+        
