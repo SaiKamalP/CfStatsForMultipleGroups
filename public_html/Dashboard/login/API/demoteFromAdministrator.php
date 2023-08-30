@@ -29,23 +29,23 @@
     }
     
     if(!$isAllowedToDemoteFromAdministrator){
-        header("Location: ../../?g=".$group_id."&m=0");
+        header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
 
     $demoteFromAdministratorFetch=demoteFromAdministrator($handleToBeDemotedFromAdministrator,$group_id);
     if($demoteFromAdministratorFetch['status']=='SUCCESS'){
         if($demoteFromAdministratorFetch['result']==true){
-            header("Location: ../../group");
+            header("Location: ../../group?g=".$group_id);
             exit;
         }
         else{
-            header("Location: ../../?g=".$group_id."&m=0");
+            header("Location: ../../group?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-        header("Location: ../../?g=".$group_id."&m=0");
+        header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
     

@@ -22,7 +22,7 @@
     $isAllowedToRemoveUserFromGroup=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
+        header("Location: ../../group?g=".$group_id."&m=0"); //getiing back to group page
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -32,7 +32,7 @@
     else if($userType=='GROUP_ADMIN'){
         $isGroupAdminOfGroupIdFetch=isGroupAdmin($userhandle,$group_id);
         if($isGroupAdminOfGroupIdFetch['status']=='FAILED'){
-            header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
+            header("Location: ../../group?g=".$group_id."&m=0"); //getiing back to group page
             exit;
         }
         $isGroupAdminOfGroupId=$isGroupAdminOfGroupIdFetch['result'];
@@ -41,23 +41,23 @@
         }
     }
     if(!$isAllowedToRemoveUserFromGroup){
-        header("Location: ../../?g=".$group_id."&m=0");
+        header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
 
     $removeFromGroupFetch=removeUserFromGroup($handleToBeRemoved,$group_id);
     if($removeFromGroupFetch['status']=='SUCCESS'){
         if($removeFromGroupFetch['result']==true){
-            header("Location: ../../");
+            header("Location: ../../group?g=".$group_id);
             exit;
         }
         else{
-            header("Location: ../../?g=".$group_id."&m=0");
+            header("Location: ../../group?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-       header("Location: ../../?g=".$group_id."&m=0");
+       header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
     

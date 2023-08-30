@@ -20,7 +20,7 @@
     $isAllowedToPromoteToAdministrator=false;
     $userTypeFetch=getUserType($userhandle);
     if($userTypeFetch['status']=='FAILED'){
-        header("Location: ../../?g=".$group_id."&m=0"); //getiing back to group page
+        header("Location: ../../group?g=".$group_id."&m=0"); //getiing back to group page
         exit;
     }
     $userType=$userTypeFetch['result'];
@@ -29,23 +29,23 @@
     }
     
     if(!$isAllowedToPromoteToAdministrator){
-        header("Location: ../../?g=".$group_id."&m=0");
+        header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
 
     $promoteToAdministratorFetch=promoteToAdministrator($handleToBePromoted,$group_id);
     if($promoteToAdministratorFetch['status']=='SUCCESS'){
         if($promoteToAdministratorFetch['result']==true){
-            header("Location: ../../");
+            header("Location: ../../group?g=".$group_id);
             exit;
         }
         else{
-            header("Location: ../../?g=".$group_id."&m=0");
+            header("Location: ../../group?g=".$group_id."&m=0");
             exit;
         }
     }
     else{
-        header("Location: ../../?g=".$group_id."&m=0");
+        header("Location: ../../group?g=".$group_id."&m=0");
         exit;
     }
     
