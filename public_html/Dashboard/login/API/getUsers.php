@@ -21,9 +21,10 @@
     if($userTypeFetch['status']=='FAILED'){
         returnFailedStatus();
     }
+    $canGetNonAdminMembers=false; //This will prevent a normal user from getting all members of the gorups.
     $userType=$userTypeFetch['result'];
-    if($userType!='ADMINISTRATOR' && $userType!='GROUP_ADMIN' ){
-        returnFailedStatus();
+    if($userType=='ADMINISTRATOR' || $userType=='GROUP_ADMIN' ){
+        $canGetNonAdminMembers=true;
     }
 
     $userDetailsArrayFetch = getUsersArray();
@@ -34,30 +35,35 @@
     $responce=array("users"=>array());
     if(!isset($_GET['group_id']) || empty($_GET['group_id']) || $_GET['group_id']=='0'){
         foreach($userDetailsArray as $user){
-            array_push($responce["users"],array(
-                "id"=>$user['id'],
-                "name"=>$user['name'],
-                "cf_handle"=>$user['cf_handle'],
-                "rating"=>$user['rating'],
-                "in_group"=>$user['in_group'],
-                "group_id"=>$user['group_id'],
-                "user_type"=>$user['user_type']
-            ));
-        }        
-    }
-    else{
-        $requestedGroupId=$_GET['group_id'];
-        foreach($userDetailsArray as $user){
-            if($user['group_id']==$requestedGroupId){
+            if($canGetNonAdminMembers || $user['user_type']=="ADMINISTRATOR" || $user['user_type']=="GROUP_ADMIN"){
                 array_push($responce["users"],array(
                     "id"=>$user['id'],
                     "name"=>$user['name'],
                     "cf_handle"=>$user['cf_handle'],
                     "rating"=>$user['rating'],
-                    "in_group"=>$$user['in_group'],
+                    "in_group"=>$user['in_group'],
                     "group_id"=>$user['group_id'],
                     "user_type"=>$user['user_type']
                 ));
+            }
+            
+        }        
+    }
+    else{
+        $requestedGroupId=$_GET['group_id'];
+        foreach($userDetailsArray as $user){
+            if($canGetNonAdminMembers || $user['user_type']=="ADMINISTRATOR" || $user['user_type']=="GROUP_ADMIN"){
+                if($user['group_id']==$requestedGroupId){
+                    array_push($responce["users"],array(
+                        "id"=>$user['id'],
+                        "name"=>$user['name'],
+                        "cf_handle"=>$user['cf_handle'],
+                        "rating"=>$user['rating'],
+                        "in_group"=>$$user['in_group'],
+                        "group_id"=>$user['group_id'],
+                        "user_type"=>$user['user_type']
+                    ));
+                }
             }
         } 
     }

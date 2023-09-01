@@ -62,9 +62,26 @@ function onSubmitAddMembers(token){
     document.getElementById('add-members-form').submit();
 }
 
+//loading group details---------------
 
-
-async function loadData(){
+function fetchGroupDetailsAndSet(){
+    fetch("../login/API/getGroups.php").then(responce => responce.json()).then(data=>{
+        if(data['status']=='SUCCESS'){
+            data['groups'].forEach(group=>{
+                if(group['id']==group_id){
+                    
+                    document.querySelector('.group-title').textContent=group['name'];
+                }
+            });
+        }
+        else{
+            alert("Someting went wrong in fetching group details.");
+        }
+    });
+}
+fetchGroupDetailsAndSet();
+//loading users ----------------------
+async function fetchUsersData(){
     
     const groupUsersfetch=await (await fetch("../login/API/getUsers.php?group_id="+group_id)).json();
     if(groupUsersfetch['status']=='SUCCESS'){
@@ -76,7 +93,7 @@ async function loadData(){
     }
 
 }
-loadData();
+fetchUsersData();
 function loadMembersFormUsers(users){
     const members_container=document.querySelector('.members-container');
     const members_row_template=document.querySelector('.member-row-outer');
