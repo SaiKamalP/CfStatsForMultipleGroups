@@ -132,62 +132,68 @@ function getPdfStandings(contestId){
             pagebreak.className="non-print display-gap dynamicElement";
             document.querySelector('.A4-pages').appendChild(pagebreak);
         
-        
-            groupParticipantsCountArray.forEach(a=>{
-                const section_3_page=document.querySelector('.standings-template').cloneNode(true);
-                section_3_page.className="A4-width  dynamicElement";
-                section_3_page.querySelector('.section-3-heading-outer').querySelector('p').textContent=a[0];
-                const section_3_container_outer=section_3_page.querySelector('.section-3-container-outer');
-                const section_3_row_template=section_3_page.querySelector('.section-3-row-outer');
-                const section_3_top_bar=section_3_page.querySelector('.section-3-top-bar');
-                cfStandings.problems.forEach(problem=>{
-                    const aTagElement=document.createElement('p');
-                    aTagElement.className="section-3-top-bar-tag";
-                    aTagElement.textContent=problem.index;
-                    section_3_top_bar.appendChild(aTagElement);
-                });
-                let count=0;
-                cfStandings.rows.forEach(row=>{
-                    if((row.party.participantType=="CONTESTANT" || row.party.participantType=="OUT_OF_COMPETITION" )&& (a[0]==participantToGroupMap.get(row.party.members[0].handle))){
-                        count++;
-                        const section_3_row_clone=section_3_row_template.cloneNode(true);
-                        section_3_row_clone.className="section-3-row-outer";
-                        section_3_row_clone.querySelector('.section-3-row-b1').textContent=count+"("+row.rank+")";
-                        section_3_row_clone.querySelector('.section-3-row-b2').textContent=participantToGroupMap.get(row.party.members[0].handle);
-                        section_3_row_clone.querySelector('.section-3-row-b3').textContent=row.party.members[0].handle;
-                        section_3_row_clone.querySelector('.section-3-row-b3').style.color=getColor(participantToRatingMap.get(row.party.members[0].handle));
-                        section_3_row_clone.querySelector('.section-3-row-b4').textContent=row.points;
-    
-                        row.problemResults.forEach(pData=>{
-                            var pointsTag=document.createElement("p");
-                            pointsTag.className="section-3-row-tag";
-                            if(pData.points>0){
-                                pointsTag.textContent="+"+pData.points;
-                            }
-                            else{
-                                if(pData.rejectedAttemptCount>0){
-                                    pointsTag.textContent="-"+pData.rejectedAttemptCount;
-                                    pointsTag.style.color='red';
-                                }
-                                else{
-                                    pointsTag.textContent="0";
-                                    pointsTag.style.color='grey';
-    
-                                }
-                            }
-                            section_3_row_clone.appendChild(pointsTag);
+            if(groupParticipantsCount.size>1){
+                groupParticipantsCountArray.forEach(a=>{
+                    //if people participated in the group is greater than 0 only then we will we creating a new page for them.
+                    if(a[1]>0){
+                        const section_3_page=document.querySelector('.standings-template').cloneNode(true);
+                        section_3_page.className="A4-width  dynamicElement";
+                        section_3_page.querySelector('.section-3-heading-outer').querySelector('p').textContent=a[0];
+                        const section_3_container_outer=section_3_page.querySelector('.section-3-container-outer');
+                        const section_3_row_template=section_3_page.querySelector('.section-3-row-outer');
+                        const section_3_top_bar=section_3_page.querySelector('.section-3-top-bar');
+                        cfStandings.problems.forEach(problem=>{
+                            const aTagElement=document.createElement('p');
+                            aTagElement.className="section-3-top-bar-tag";
+                            aTagElement.textContent=problem.index;
+                            section_3_top_bar.appendChild(aTagElement);
                         });
-    
-                        section_3_container_outer.appendChild(section_3_row_clone);
-                }
-                });
-                document.querySelector('.A4-pages').appendChild(section_3_page);
-                const pagebreak=document.createElement("div");
-                pagebreak.className="non-print display-gap dynamicElement";
-                document.querySelector('.A4-pages').appendChild(pagebreak);
+                        let count=0;
+                        cfStandings.rows.forEach(row=>{
+                            if((row.party.participantType=="CONTESTANT" || row.party.participantType=="OUT_OF_COMPETITION" )&& (a[0]==participantToGroupMap.get(row.party.members[0].handle))){
+                                count++;
+                                const section_3_row_clone=section_3_row_template.cloneNode(true);
+                                section_3_row_clone.className="section-3-row-outer";
+                                section_3_row_clone.querySelector('.section-3-row-b1').textContent=count+"("+row.rank+")";
+                                section_3_row_clone.querySelector('.section-3-row-b2').textContent=participantToGroupMap.get(row.party.members[0].handle);
+                                section_3_row_clone.querySelector('.section-3-row-b3').textContent=row.party.members[0].handle;
+                                section_3_row_clone.querySelector('.section-3-row-b3').style.color=getColor(participantToRatingMap.get(row.party.members[0].handle));
+                                section_3_row_clone.querySelector('.section-3-row-b4').textContent=row.points;
             
-        
-            });
+                                row.problemResults.forEach(pData=>{
+                                    var pointsTag=document.createElement("p");
+                                    pointsTag.className="section-3-row-tag";
+                                    if(pData.points>0){
+                                        pointsTag.textContent="+"+pData.points;
+                                    }
+                                    else{
+                                        if(pData.rejectedAttemptCount>0){
+                                            pointsTag.textContent="-"+pData.rejectedAttemptCount;
+                                            pointsTag.style.color='red';
+                                        }
+                                        else{
+                                            pointsTag.textContent="0";
+                                            pointsTag.style.color='grey';
+            
+                                        }
+                                    }
+                                    section_3_row_clone.appendChild(pointsTag);
+                                });
+            
+                                section_3_container_outer.appendChild(section_3_row_clone);
+                        }
+                        });
+                        document.querySelector('.A4-pages').appendChild(section_3_page);
+                        const pagebreak=document.createElement("div");
+                        pagebreak.className="non-print display-gap dynamicElement";
+                        document.querySelector('.A4-pages').appendChild(pagebreak);
+                    
+                
+                    }
+                    
+                });
+            }
+           
             setTimeout(function(){
                 window.print();
             },3000);
