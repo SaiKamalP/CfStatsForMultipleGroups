@@ -16,11 +16,19 @@ function getPdfStandings(contestId){
         if(data['status']=='FAILED'){
             return;
         }
-        const users=data.users;
+        let users=[];
+        data.users.forEach(usr=>{
+            if(selectedEveryone || (usr.group_id>0 && selectedAllGroups) || (selectedGroupIds.indexOf(parseInt(usr.group_id,10))!=-1)){
+                users.push(usr);
+            }
+        });
         let cfusersStringForCFAPI="";
         users.forEach(usr => {
             cfusersStringForCFAPI+=usr.cf_handle+';';
         });
+        if(cfusersStringForCFAPI==""){
+            return;
+        }
         
         var cfAPICallString="https://codeforces.com/api/contest.standings?contestId="+contestId+"&showUnofficial=true&handles="+
                             cfusersStringForCFAPI;
@@ -41,7 +49,7 @@ function getPdfStandings(contestId){
                     }
                 }
             });
-            console.log(cfStandings);
+            // console.log(cfStandings);
             //group counting( 0 initialized above)
             cfStandings.rows.forEach(row=>{
                 if(row.party.participantType=="CONTESTANT" || row.party.participantType=="OUT_OF_COMPETITION" ){
@@ -203,13 +211,13 @@ function getPdfStandings(contestId){
     
 }
 
-function temporarlyAskForContestId(){
-    const contest_id=prompt("Enter the contest ID.");
-    getPdfStandings(contest_id);
+// function temporarlyAskForContestId(){
+//     const contest_id=prompt("Enter the contest ID.");
+//     getPdfStandings(contest_id);
 
-}
+// }
 
-temporarlyAskForContestId();
+// temporarlyAskForContestId();
 
 
 function getColor(x){
@@ -244,6 +252,124 @@ function getColor(x){
     }
     return 'rgb(239,35,36)';
 }
+
+function getTimeString(time){
+    const date = new Date(time*1000);
+    const formattedTime = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+
+    return formattedTime;
+}
+
+function getDateString(time){
+    const date = new Date(time*1000);   
+    const day = date.getUTCDate().toString().padStart(2, '0'); // Get the day and pad with leading zeros if necessary
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Get the month (zero-based) and add 1, then pad with leading zeros if necessary
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+}
+
+let selctedContestId;
+const NUMBER_OF_CONTESTS_TO_DISPLY=5;
+function displayContests(){
+    fetch(" https://codeforces.com/api/contest.list").then(responce=>responce.json()).then(data=>{
+        if(data.status="OK"){
+            let contestsList=data.result;
+            let count=0;
+            let i1=0;
+            const contestListContainer=document.querySelector(".contest-list-container");
+            const contestListElementTemplate=document.querySelector("#contest-list-element-template");
+            while(count<NUMBER_OF_CONTESTS_TO_DISPLY){
+                if(contestsList[i1].phase!="BEFORE"){
+                    const newContestElement=contestListElementTemplate.cloneNode(true);
+                    newContestElement.className="contest-display-outer";
+                    newContestElement.querySelector(".contest-display-name").innerHTML=contestsList[i1].name;
+                    newContestElement.querySelector(".contest-display-date-time").innerHTML=getDateString(contestsList[i1].startTimeSeconds)+" "+getTimeString(contestsList[i1].startTimeSeconds);
+                    newContestElement.querySelector(".contest-display-phase").innerHTML=contestsList[i1].phase;
+                    const contestId=contestsList[i1].id;
+                    newContestElement.querySelector(".contest-display-action-btn").addEventListener('click',function(){
+                        newContestElement.querySelector(".contest-display-action-btn").innerHTML="PROCESSING";
+                        selctedContestId=contestId;
+                        displayGroupSelector();
+                    });
+                    contestListContainer.appendChild(newContestElement);
+                    count++;
+                }
+                i1++;
+            }
+            
+        }
+    });
+}
+displayContests();
+function removeDynamicGroups(){
+    let groupsDisplayes=document.querySelectorAll(".dynamic-group-element");
+    groupsDisplayes.forEach(element=>{
+        element.remove();
+    });
+}
+let selectedGroupIds=[];
+let selectedAllGroups=false;
+let selectedEveryone=false;
+function displayGroupSelector(){
+    selectedGroupIds=[];
+    selectedAllGroups=false;
+    selectedEveryone=false;
+    document.querySelector(".group-selector-frame").style.display="block";
+    removeDynamicGroups();
+    fetch("../login/API/getGroups.php").then(responce=>responce.json()).then(data=>{
+        if(data.status=="SUCCESS"){
+            const groupsContainer=document.querySelector(".group-selector-section-2-outer");
+            const groupElementTemplate=document.querySelector("#group-selector-group-element-template");
+            data.groups.forEach(group=>{
+                const newGroupElement=groupElementTemplate.cloneNode(true);
+                newGroupElement.className="group-selector-group-element dynamic-group-element";
+                newGroupElement.innerHTML=group.name;
+                const groupId=group.id;
+                newGroupElement.addEventListener("click",function(){
+                    if(selectedGroupIds.indexOf(groupId)!=-1){
+                        newGroupElement.style.background="rgba(0, 0, 0, 0.468)";
+                        delete selectedGroupIds[selectedGroupIds.indexOf(groupId)];
+                    }
+                    else{
+                        console.log()
+                        selectedGroupIds.push(groupId);
+                        newGroupElement.style.background="rgb(150,100,100)";
+
+                    }
+                });
+                groupsContainer.appendChild(newGroupElement);
+            });
+        }
+        else{
+            alert("something went wrong");
+        }
+        
+
+    });
+}
+document.querySelector(".group-selector-frame").addEventListener('click',function(){
+    document.querySelector(".group-selector-frame").style.display="none";
+});
+document.querySelector(".group-selector-window").addEventListener('click',function(event){
+    event.stopPropagation();
+});
+
+document.querySelector("#group-selector-btn-everyone").addEventListener("click",function(){
+    selectedEveryone=true;
+    document.querySelector(".group-selector-frame").style.display="none";
+    getPdfStandings(selctedContestId);
+});
+document.querySelector("#group-selector-btn-all-groups").addEventListener("click",function(){
+    selectedAllGroups=true;
+    document.querySelector(".group-selector-frame").style.display="none";
+    getPdfStandings(selctedContestId);
+});
+document.querySelector("#group-selector-get-standings-btn").addEventListener("click",function(){
+    document.querySelector(".group-selector-frame").style.display="none";
+    getPdfStandings(selctedContestId);
+});
 
 function getTimeString(time){
     const date = new Date(time*1000);
