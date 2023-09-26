@@ -36,8 +36,9 @@ function getPdfStandings(contestId){
             const cfStandings=data2.result;
     
             //contest data filling
-            const first_page_outer=document.querySelector('.first-page-outer');
-            first_page_outer.innerHTML=cfStandings.contest.name+"<br>" +getDateString(cfStandings.contest.startTimeSeconds)+"<br>"+getTimeString(cfStandings.contest.startTimeSeconds);
+            
+            document.querySelector('.first-page-contest-name-outer').innerHTML=cfStandings.contest.name;
+            document.querySelector('.first-page-contest-date-outer').innerHTML=getDateString(cfStandings.contest.startTimeSeconds);
             document.querySelector('title').textContent=cfStandings.contest.name+" stangings report";
             let groupParticipantsCount=new Map();
             let participantToGroupMap=new Map();
@@ -292,6 +293,7 @@ function displayContests(){
                         newContestElement.querySelector(".contest-display-action-btn").innerHTML="PROCESSING";
                         selctedContestId=contestId;
                         displayGroupSelector();
+                        newContestElement.querySelector(".contest-display-action-btn").innerHTML="Get Standings";
                     });
                     contestListContainer.appendChild(newContestElement);
                     count++;
