@@ -53,7 +53,7 @@ document.querySelector('.get-standings-btn').addEventListener('click',function()
 
 document.querySelector('.get-rating-changes-btn').addEventListener('click',function(){
     if(isAdminOfSomeGroup){
-        alert('This function is under development');
+        window.location.href="getRatingChanges";
     }
     else{
         alert('You must be an administrator or a group admin to perform this action.');

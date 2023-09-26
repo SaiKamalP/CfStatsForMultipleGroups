@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!--fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!--fonts-end-->
+
+    <link rel="stylesheet" href="style.css"/>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="non-print">
+        <div class="contest-selector-frame">
+            <div class="contest-selector-outer">
+                <div class="contest-list-container-outer">
+                    <div class="contest-list-top-gap"></div>
+                    <div class="contest-list-container">
+                        <div class="contest-display-outer istemplate" id="contest-list-element-template">
+                            <div class="contest-display-name">
+                                Codeforces Round Div.2 
+                            </div>
+                            <div class="contest-display-subpart-outer">
+                                <div class="contest-display-date-time">24/09/2023 8:05 PM</div>
+                                <div class="contest-display-phase">Coding</div>
+                                <div class="contest-display-action-btn">Get Rating Changes</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="non-print group-selector-frame">
+        <div class="group-selector-frame-top-gap"></div>
+        <div class="group-selector-window">
+            <div class="group-selector-top-gap"></div>
+            <div class="group-selector-outer">
+                <div class="group-selector-section-1">
+                    <div class="group-selector-section-1-btn" id="group-selector-btn-everyone"> EVERYONE </div>
+                    <div class="group-selector-section-1-btn"  id="group-selector-btn-all-groups"> ALL GROUPS </div>
+                </div>
+                <div class="group-selector-section-2-outer">
+                    <div class="group-selector-group-element istemplate" id="group-selector-group-element-template" >SHIVALIK</div>
+                </div>
+                <div class="group-selector-btn-outer" id="group-selector-get-standings-btn"> GET RATING CHANGES</div>
+            </div>
+        </div>
+    </div>
+    <div class="A4-pages">
+        <!-- First Page -->
+        <div class="A4-page first-page">
+            <div class="first-page-outer">
+                <div class="first-page-top-panel-outer">
+                    <div class="first-page-top-panel">
+                        <div class="first-page-contest-name-outer">Educational Codeforces Round 155 (Rated for Div. 2)</div>
+                        <div class="first-page-contest-date-outer">24/9/2023</div>
+                        <div class="first-page-title-outer">&lt;Rating changes&gt;</div>
+                    </div>
+                </div>
+                <div class="first-page-content-outer">
+                    <div class="first-page-content-title">Problem Set</div>
+                    <div class="first-page-content-tiles-outer">
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://codeforces.com/problemset">Codeforces</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://cses.fi/problemset/">CSES</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://www.interviewbit.com/practice/">Interview<br> Bit</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://projecteuler.net/archives">Project<br> Euler</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://kenkoooo.com/atcoder/#/table/">AtCoder</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://leetcode.com/problemset/all/">Leetcode</a>
+                    </div>
+                    <div class="first-page-content-title">Readings/Books</div>
+                    <div class="first-page-content-tiles-outer">
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://cses.fi/book/book.pdf">CP Hand <br> Book</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://cp-algorithms.com/navigation.html">CP-Algo</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://codeforces.com/catalog">Codeforces <br> Catalog</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://usaco.guide/">USACO Guide</a>
+                        <a class="first-page-contnet-tile-outer" target="_blank" href="https://www.youtube.com/playlist?list=PLauivoElc3ggagradg8MfOZreCMmXMmJ-">Luv(youtube)</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pagebreak"></div>
+        </div>
+        <div class="non-print display-gap"></div>
+        
+        <!-- group wise participation page -->
+        <div class="A4-width">
+            <div class="section-2-continer-outer">
+                <div class="gap-5"></div>
+                <div class="section-2-top-bar">
+                    <p class="section-2-top-bar-h1"> SN</p>
+                    <p  class="section-2-top-bar-h2"> GROUP</p>
+                    <p  class="section-2-top-bar-h3">COUNT</p>  
+                </div>
+                <div class="section-2-row-outer istemplate">
+                    <p class="section-2-row-b1"> 0</p>
+                    <p  class="section-2-row-b2"> GROUP-1</p>
+                    <p  class="section-2-row-b3">30</p>  
+                </div>
+
+            </div>
+            <div class="pagebreak"></div>
+        </div>
+        <div class="non-print display-gap"></div>
+
+        <!-- standings page -->
+        <div class="A4-width standings-template istemplate">
+            <div class="section-3-container-outer">
+                <div class="gap-3"></div>
+                <div class="section-3-heading-outer"><p>Overall Rating Changes</p></div>
+                <div class="gap-1"></div>
+                <div class="section-3-top-bar">
+                    <p class="section-3-top-bar-h1"> RANK</p>
+                    <p  class="section-3-top-bar-h2"> GROUP</p>
+                    <p  class="section-3-top-bar-h3">handle</p> 
+                    <p  class="section-3-top-bar-h4">Δ</p> 
+                    <p  class="section-3-top-bar-h5">From</p>
+                    <p  class="section-3-top-bar-h6">⇒</p>
+                    <p  class="section-3-top-bar-h7">To</p> 
+                </div>
+                <div class="section-3-row-outer istemplate">
+                    <p class="section-3-row-b1"> 120000</p>
+                    <p  class="section-3-row-b2"> Shivalik</p>
+                    <p  class="section-3-row-b3">sai_kamal</p>  
+                    <p  class="section-3-row-b4">12500</p> 
+                    <p  class="section-3-row-b5">12500</p> 
+                    <p  class="section-3-row-b6">⇒</p> 
+                    <p  class="section-3-row-b7">12500</p> 
+                    <p  class="section-3-row-b8"></p> 
+                </div>
+            </div>
+            <div class="pagebreak"></div>
+        </div>
+
+
+    </div>
+</body>
+</html>
