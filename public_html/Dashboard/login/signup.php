@@ -35,7 +35,7 @@
     }
 
     $clientName=$_POST['signup-name'];
-    $ClientCf_handle=$_POST['signup-cf_handle'];
+    $ClientCf_handle=strtolower($_POST['signup-cf_handle']);
     $ClientEmail=$_POST['signup-email'];
     $ClientPassword=$_POST['signup-password'];
 

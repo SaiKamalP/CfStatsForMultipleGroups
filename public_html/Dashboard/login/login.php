@@ -34,7 +34,7 @@
 
 
 
-    $clientUsername=$_POST['login-username'];
+    $clientUsername=strtolower($_POST['login-username']);
     $clientPassword=$_POST['login-password'];
     if(!isAValidName($clientUsername) || !isAValidName($clientPassword,100)){
         getBackToLoginPage("3");
