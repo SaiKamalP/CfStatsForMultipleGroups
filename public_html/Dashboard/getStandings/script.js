@@ -34,7 +34,9 @@ function getPdfStandings(contestId){
                             cfusersStringForCFAPI;
         fetch(cfAPICallString).then(responce=>responce.json()).then(async data2=>{
             const cfStandings=data2.result;
-    
+            cfStandings.rows.forEach(row=>{
+                row.party.members[0].handle=row.party.members[0].handle.toLowerCase();
+            });
             //contest data filling
             
             document.querySelector('.first-page-contest-name-outer').innerHTML=cfStandings.contest.name;
@@ -79,6 +81,7 @@ function getPdfStandings(contestId){
             const contestantsRatingsresult=(await contestantsRatingsCall.json());
             const participantToRatingMap=new Map();
             contestantsRatingsresult.result.forEach(person=>{
+                person.handle=person.handle.toLowerCase();
                 participantToRatingMap.set(person.handle,0);
                 if(person.hasOwnProperty("rating")){
                     participantToRatingMap.set(person.handle,person.rating);

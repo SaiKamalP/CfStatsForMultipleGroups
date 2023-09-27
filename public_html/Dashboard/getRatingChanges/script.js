@@ -34,7 +34,9 @@ function getPdfRatingChanges(contestId){
         fetch(cfAPICallString).then(responce=>responce.json()).then(async data2=>{
             const cfRatingChanges=data2.result;
             //contest data filling
-            
+            cfRatingChanges.forEach(row=>{
+                row.handle=row.handle.toLowerCase();
+            });
             document.querySelector('.first-page-contest-name-outer').innerHTML=cfRatingChanges[0].contestName;
             document.querySelector('.first-page-contest-date-outer').innerHTML=selectedContestDate;//getDateString(cfRatingChanges.contest.startTimeSeconds);
             document.querySelector('title').textContent=cfRatingChanges[0].contestName+" Rating Changes report";
@@ -81,6 +83,7 @@ function getPdfRatingChanges(contestId){
             const contestantsRatingsresult=(await contestantsRatingsCall.json());
             const participantToRatingMap=new Map();
             contestantsRatingsresult.result.forEach(person=>{
+                person.handle=person.handle.toLowerCase();
                 participantToRatingMap.set(person.handle,0);
                 if(person.hasOwnProperty("rating")){
                     participantToRatingMap.set(person.handle,person.rating);
@@ -106,8 +109,9 @@ function getPdfRatingChanges(contestId){
                     }
                     section_3_row_clone.querySelector('.section-3-row-b3').textContent=row.handle;
                     section_3_row_clone.querySelector('.section-3-row-b3').style.color=getColor(participantToRatingMap.get(row.handle));
-                    section_3_row_clone.querySelector('.section-3-row-b4').textContent=row.newRating-row.oldRating;
+                    section_3_row_clone.querySelector('.section-3-row-b4').textContent='+'+(row.newRating-row.oldRating);
                     if(row.newRating-row.oldRating<0){
+                        section_3_row_clone.querySelector('.section-3-row-b4').textContent=(row.newRating-row.oldRating);
                         section_3_row_clone.querySelector('.section-3-row-b4').style.color="red";
                     }
                     section_3_row_clone.querySelector('.section-3-row-b5').textContent=row.oldRating;
@@ -150,8 +154,9 @@ function getPdfRatingChanges(contestId){
                                 }
                                 section_3_row_clone.querySelector('.section-3-row-b3').textContent=row.handle;
                                 section_3_row_clone.querySelector('.section-3-row-b3').style.color=getColor(participantToRatingMap.get(row.handle));
-                                section_3_row_clone.querySelector('.section-3-row-b4').textContent=row.newRating-row.oldRating;
+                                section_3_row_clone.querySelector('.section-3-row-b4').textContent='+'+(row.newRating-row.oldRating);
                                 if(row.newRating-row.oldRating<0){
+                                    section_3_row_clone.querySelector('.section-3-row-b4').textContent=(row.newRating-row.oldRating);
                                     section_3_row_clone.querySelector('.section-3-row-b4').style.color="red";
                                 }
                                 section_3_row_clone.querySelector('.section-3-row-b5').textContent=row.oldRating;
