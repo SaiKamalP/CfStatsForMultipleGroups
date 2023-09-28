@@ -29,12 +29,11 @@ databases-1:
 
 File you need to change:
     1. Under Dashboard/login/classesAndFunctions/dbAndOtherDetails.php
-    2. You need to change the recaptch public key also.
-        currently they are used at 9 positions
-            1. 2 times - Under login/index.html for signup and login btns.
-            2. Under Dashboard/index.html when Admin clicks on add group and in that window there is an add btn using recaptcha.
-            3. Under /Dashboard/group/index.html when add members btn clicked in the windows there is an add btn using recaptcha.
-            4. 5 times under /Dashboard/group/index.html when users selects options in option panel
+        This project uses recaptcha and jws tokens for security
+        ->for recaptch:-
+            obtain private and pubic keys by registering your site with recaptch form google
+        ->for JWS-tokens:-
+            Put some gibrish random long key for encryption and decryption.
 
 To start using:-
     The code is desined to work in the following priniple:

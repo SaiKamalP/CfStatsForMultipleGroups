@@ -1,4 +1,15 @@
-
+function setRecaptchKey(){
+  fetch("API/getRecaptchaPublicKey.php").then(responce=>responce.json()).then(data=>{
+    if(data.status=="SUCCESS"){
+      document.getElementById('login-btn').setAttribute('data-sitekey',data.result);
+      document.getElementById('signup-btn').setAttribute('data-sitekey',data.result);
+    }
+    else{
+      alert("can't process requests at the moment.");
+    }
+  });
+}
+setRecaptchKey();
 
 function showMessage(){
   const messageId=new URLSearchParams(window.location.search).get('m');

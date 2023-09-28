@@ -45,7 +45,7 @@
                             <input type="text" name="group_id" id="add-members-form-group-id" style="display: none;"/>
                         </div>
                         <div class="add-members-form-submit-btn-row">
-                            <button class="g-recaptcha add-member-form-submit " data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='onSubmitAddMembers' data-action='submit'>ADD MEMBERS</button>
+                            <button class="g-recaptcha add-member-form-submit " id="add-members-from-btn" data-callback='onSubmitAddMembers' data-action='submit'>ADD MEMBERS</button>
                         </div>
                     </div>
                 </form>
@@ -61,7 +61,7 @@
                         <input type="text" name="group_id" id="user-option-promote-to-group-admin-group-id" style="display: none;"/>
                         <input type="text" name="selected_handle" id="user-option-promote-to-group-admin-selected-handle" style="display: none;"/>
                         
-                        <button  class="g-recaptcha user-option-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='promoteToGroupAdmin' data-action='submit' >
+                        <button  class="g-recaptcha user-option-btn" id="promoteToGroupAdmin-btn" data-callback='promoteToGroupAdmin' data-action='submit' >
                             PROMOTE TO GROUP_ADMIN
                         </button>
                     </form>
@@ -69,7 +69,7 @@
                         <input type="text" name="group_id" id="user-option-demote-from-group-admin-group-id" style="display: none;"/>
                         <input type="text" name="selected_handle" id="user-option-demote-from-group-admin-selected-handle" style="display: none;"/>
                         
-                        <button  class="g-recaptcha user-option-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='demoteFromGroupAdmin' data-action='submit' >
+                        <button  class="g-recaptcha user-option-btn" id="demoteFromGroupAdmin-btn" data-callback='demoteFromGroupAdmin' data-action='submit' >
                             DEMOTE FROM GROUP_ADMIN
                         </button>
                     </form>
@@ -77,7 +77,7 @@
                         <input type="text" name="group_id" id="user-option-remove-from-group-group-id" style="display: none;"/>
                         <input type="text" name="selected_handle" id="user-option-remove-from-group-selected-handle" style="display: none;"/>
                         
-                        <button  class="g-recaptcha user-option-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='removeFromGroup' data-action='submit'  >
+                        <button  class="g-recaptcha user-option-btn" id="removeFromGroup-btn" data-callback='removeFromGroup' data-action='submit'  >
                             REMOVE FROM GROUP
                         </button>
                     </form>
@@ -86,7 +86,7 @@
                         <input type="text" name="group_id" id="user-option-promote-to-administrator-group-id" style="display: none;"/>
                         <input type="text" name="selected_handle" id="user-option-promote-to-administrator-selected-handle" style="display: none;"/>
                         
-                        <button  class="g-recaptcha user-option-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='promoteToAdministrator' data-action='submit' >
+                        <button  class="g-recaptcha user-option-btn" id="promoteToAdministrator-btn" data-callback='promoteToAdministrator' data-action='submit' >
                             PROMOTE TO ADMINISTRATOR
                         </button>
                     </form>
@@ -95,7 +95,7 @@
                         <input type="text" name="group_id" id="user-option-demote-from-administrator-group-id" style="display: none;"/>
                         <input type="text" name="selected_handle" id="user-option-demote-from-administrator-selected-handle" style="display: none;"/>
                         
-                        <button class="g-recaptcha user-option-btn" data-sitekey="6LdEPcsnAAAAAN39XujLDZAAR9WX4XZuUN0vbIlA" data-callback='demoteFromAdministrator' data-action='submit' >
+                        <button class="g-recaptcha user-option-btn" id="demoteFromAdministrator-btn" data-callback='demoteFromAdministrator' data-action='submit' >
                             DEMOTE FROM ADMINISTRATOR
                         </button>
                     </form>

@@ -1,4 +1,19 @@
-
+function setRecaptchKey(){
+    fetch("../login/API/getRecaptchaPublicKey.php").then(responce=>responce.json()).then(data=>{
+      if(data.status=="SUCCESS"){
+        document.getElementById('add-members-from-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('promoteToGroupAdmin-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('demoteFromGroupAdmin-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('removeFromGroup-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('promoteToAdministrator-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('demoteFromAdministrator-btn').setAttribute('data-sitekey',data.result);
+      }
+      else{
+        alert("can't process requests at the moment.");
+      }
+    });
+  }
+setRecaptchKey();
 const group_id=new URLSearchParams(window.location.search).get('g');
 function showMessage(){
     const messageId=new URLSearchParams(window.location.search).get('m');

@@ -1,3 +1,15 @@
+function setRecaptchKey(){
+    fetch("login/API/getRecaptchaPublicKey.php").then(responce=>responce.json()).then(data=>{
+      if(data.status=="SUCCESS"){
+        document.getElementById('signup-btn').setAttribute('data-sitekey',data.result);
+      }
+      else{
+        alert("can't process requests at the moment.");
+      }
+    });
+  }
+  setRecaptchKey();
+
 
 let isAdministrator=false;
 let isAdminOfSomeGroup=false;
