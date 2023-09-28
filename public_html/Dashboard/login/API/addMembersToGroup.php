@@ -46,6 +46,7 @@
     $handlesList=preg_split('/\s+/', $handlesListString, -1, PREG_SPLIT_NO_EMPTY);
     $ableToAddAllHandels=true;
     foreach($handlesList as $handle){
+        $handle=strtolower($handle);
         if(isAValidName($handle)){
             $addUserToGroupFetch=addUserToGroup($handle,$group_id);
             if($addUserToGroupFetch['status']=='SUCCESS'){
