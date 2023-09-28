@@ -2,6 +2,9 @@ function setRecaptchKey(){
     fetch("login/API/getRecaptchaPublicKey.php").then(responce=>responce.json()).then(data=>{
       if(data.status=="SUCCESS"){
         document.getElementById('signup-btn').setAttribute('data-sitekey',data.result);
+        const recaptchScriptElement=document.createElement("script");
+        recaptchScriptElement.setAttribute("src","https://www.google.com/recaptcha/api.js");
+        document.head.appendChild(recaptchScriptElement);
       }
       else{
         alert("can't process requests at the moment.");

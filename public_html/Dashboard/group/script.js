@@ -7,6 +7,9 @@ function setRecaptchKey(){
         document.getElementById('removeFromGroup-btn').setAttribute('data-sitekey',data.result);
         document.getElementById('promoteToAdministrator-btn').setAttribute('data-sitekey',data.result);
         document.getElementById('demoteFromAdministrator-btn').setAttribute('data-sitekey',data.result);
+        const recaptchScriptElement=document.createElement("script");
+        recaptchScriptElement.setAttribute("src","https://www.google.com/recaptcha/api.js");
+        document.head.appendChild(recaptchScriptElement);
       }
       else{
         alert("can't process requests at the moment.");
