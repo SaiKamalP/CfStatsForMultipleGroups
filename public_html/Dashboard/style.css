@@ -17,7 +17,7 @@ body{
 .top-bar{
     width: 100vw;
     height:6vh;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(255,255,255,0.1);
 }
 
 .gap-1{
@@ -100,6 +100,7 @@ body{
     margin-left: 1%;
     border-radius: 20px;
     overflow: hidden;
+    background-color: rgb(45, 39, 35);
     box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.1);
 }
 .group-title{
