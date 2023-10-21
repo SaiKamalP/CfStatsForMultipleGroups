@@ -29,6 +29,15 @@ body{
 .gap-5{
     height: 5vh;
 }
+.gap-2p{
+    height:2%;
+}
+.gap-3p{
+    height:3%;
+}
+.gap-5p{
+    height:5%;
+}
 
 .add-group-btn-row{
     height:6vh;
@@ -103,7 +112,7 @@ body{
     background-color: rgb(45, 39, 35);
     box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.1);
 }
-.group-title{
+.group-tile-top-bar{
     width:100%;
     height:20%;
     text-align: center;
@@ -112,8 +121,112 @@ body{
     justify-content: center;
     color: rgb(198, 198, 198);
     font-size: 28px;
+    display: flex;
+    align-items: center;
 }
-
+.group-title{
+    width:80%;
+    margin-left: 10%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(198, 198, 198);
+    font-size: 28px;
+}
+.group-tile-options-btn-outer{
+    width: 10%;
+    text-align: center;
+    overflow: hidden;
+}
+.group-tile-options-btn{
+    transform: rotate(90deg);
+}
+.group-options-window-outer{
+    display: none;
+    position: fixed;
+    top:0px;
+    width: 100vw;
+    height: 100vh;
+}
+.group-options-window-inner{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.group-options-window{
+    width: 30%;
+    height: 40%;
+    background-color: #4C4440;
+    border-radius: 20px;
+    box-shadow: 0px 10px 10px rgba(0,0,0,0.2);
+}
+.group-options-window-title{
+    width: 100%;
+    text-align: center;
+    height: 10%;
+    font-size: 24px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rename-group-form{
+    width:80%;
+    height: 40%;
+    margin: 0 auto;
+}
+.rename-group-input-box-outer{
+    width: 100%;
+    display: flex;
+    height: 40%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.rename-group-form-submit-outer{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.rename-group-form-submit-btn{
+    height: 100%;
+    width: 50%;
+    font-size: 24px;
+    font-weight: 800;
+    background-color: rgba(0,0,0,0.3);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color:rgba(216, 216, 216,0.5);
+}
+.remove-group-form{
+    width: 80%;
+    height: 35%;
+    margin: 0 auto;
+}
+.remove-group-form-submit-outer{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.remove-group-form-submit-btn{
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 800;
+    background-color: rgb(173, 7, 7);
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    color:rgb(255, 255, 255);
+}
 .group-tile-line-divider{
     height: 1px;
     width: 100%;
@@ -129,9 +242,8 @@ body{
 
 }
 
-
 .add-group-window-outer{
-    position: absolute;
+    position: fixed;
     display: none;
     top:0px;
     width:100%;

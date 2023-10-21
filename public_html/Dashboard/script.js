@@ -2,6 +2,8 @@ function setRecaptchKey(){
     fetch("login/API/getRecaptchaPublicKey.php").then(responce=>responce.json()).then(data=>{
       if(data.status=="SUCCESS"){
         document.getElementById('signup-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('rename-group-form-submit-btn').setAttribute('data-sitekey',data.result);
+        document.getElementById('remove-group-form-submit-btn').setAttribute('data-sitekey',data.result);
         const recaptchScriptElement=document.createElement("script");
         recaptchScriptElement.setAttribute("src","https://www.google.com/recaptcha/api.js");
         document.head.appendChild(recaptchScriptElement);
@@ -108,9 +110,37 @@ function onSubmitAddGroup(token) {
         group_tile_clone.querySelector('.group-title').innerHTML=group['name'];
         group_tile_clone.querySelector('.group-description').innerHTML=group['description'];
         const groupId=group['id'];
+        console.log(groupId);
+        group_tile_clone.querySelector('.group-tile-options-btn-outer').addEventListener('click',function(event){
+            event.stopPropagation();
+            showGroupOptions(groupId);
+        });
         group_tile_clone.addEventListener('click',function(){
             window.location.href="group?g="+groupId;
         });
         group_tiles_outer.appendChild(group_tile_clone);
     });
  }
+
+let selectedGroupForOptions;
+function showGroupOptions(group_id){
+    if(isAdministrator){
+        selectedGroupForOptions=group_id;
+        document.querySelector('.group-options-window-outer').style.display="block";
+    }
+}
+document.querySelector('.group-options-window-outer').addEventListener('click',function(){
+    document.querySelector('.group-options-window-outer').style.display="none";
+});
+document.querySelector('.group-options-window').addEventListener('click',function(event){
+    event.stopPropagation();
+});
+function onSubmitRemoveGroup(token){
+    document.getElementById("remove-group-from-group-id").value=selectedGroupForOptions;
+    document.getElementById("remove-group-form").submit();
+}
+
+function onSubmitRenameGroup(token){
+    document.getElementById("rename-group-from-group-id").value=selectedGroupForOptions;
+    document.getElementById("rename-group-form").submit();
+}

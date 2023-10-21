@@ -20,8 +20,13 @@
     <div class="gap-3"></div>
     <div class="group-tiles-outer">
         <div class="group-tile istemplate">
-            <div class="group-title">
-                Shivalik
+            <div class="group-tile-top-bar">
+                <div class="group-title">
+                    Shivalik
+                </div>
+                <div class="group-tile-options-btn-outer">
+                    <p class="group-tile-options-btn">...</p>
+                </div>
             </div>
             <div class="group-tile-line-divider"></div>
             <div class="group-description">
@@ -41,6 +46,38 @@
                     </div>
                     <div class="form-submit-outer">
                         <button type="submit" id="signup-btn" class="g-recaptcha form-submit-btn" data-callback='onSubmitAddGroup' data-action='submit'>ADD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="group-options-window-outer">
+        <div class="group-options-window-inner">
+            <div class="group-options-window">
+                <div class="gap-5p"></div>
+                <div class="group-options-window-title">
+                    Change Group Name
+                </div>
+                <div class="gap-5p"></div>
+                <form action="login/API/renameGroup.php" id="rename-group-form" class="rename-group-form" method="POST">
+                    <input style="display: none;" type="number" name="group_id" id="rename-group-from-group-id"/> 
+                    <div class="rename-group-input-box-outer">
+                        <div class="input-box-img-outer"></div>
+                        <input type="text"  name="group-name" id="group-name" class="input-box" placeholder="New Group Name"  required/>
+                    </div>
+                    <div class="gap-5p"></div>
+                    <div class="gap-5p"></div>
+                    <div class="rename-group-form-submit-outer">
+                        <button type="submit" id="rename-group-form-submit-btn" class="g-recaptcha rename-group-form-submit-btn" data-callback='onSubmitRenameGroup' data-action='submit'>RENAME</button>
+                    </div>
+                </form>
+                <div class="gap-5p"></div>
+                <form action="login/API/removeGroup.php" id="remove-group-form" class="remove-group-form" method="POST">
+                    <div class="gap-5p"></div>
+                    <div class="gap-5p"></div>
+                    <input style="display: none;" type="number" name="group_id" id="remove-group-from-group-id"/> 
+                    <div class="remove-group-form-submit-outer">
+                        <button type="submit" id="remove-group-form-submit-btn" class="g-recaptcha remove-group-form-submit-btn" data-callback='onSubmitRemoveGroup' data-action='submit'>DELETE GROUP</button>
                     </div>
                 </form>
             </div>
