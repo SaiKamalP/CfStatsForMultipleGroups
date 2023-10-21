@@ -709,6 +709,39 @@
             'status' => 'FAILED'
         );
     }
-
+    function renameGroup($group_id,$newGroupName){
+        if(!isAValidNameWithSpace($newGroupName)){  
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        global $host,$username,$password,$dbName;
+        global $cfGroupsTableName;
+        try{
+            $conn = mysqli_connect($host, $username, $password, $dbName);
+            $query="UPDATE `".$cfGroupsTableName."` SET `name`=? WHERE `id`=?";
+            $prepareStmt=mysqli_prepare($conn,$query);
+            if(!$prepareStmt){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            $prepareStmt->bind_param("si",$newGroupName,$group_id);
+            if(!$prepareStmt->execute()){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            return array(
+                'status' => 'SUCCESS'
+            );
+        }
+        catch(Exception $e){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+    
+    }
 
 ?>
