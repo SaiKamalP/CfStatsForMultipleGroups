@@ -19,7 +19,7 @@
         header("Location: ../../?m=0"); //getiing back to dashboard
         exit;
     }
-    if(!isset($_POST['group_id'])){
+    if(!isset($_POST['group_id']) || empty($_POST['group_id'])){
         header("Location: ../../"); //getting back to dashboard
         exit;
     }

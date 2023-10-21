@@ -650,7 +650,7 @@
             #disconnecting the all the users from the group
 
             #making the GROUP_ADMINS as normal users.
-            $query="UPDATE `".$cfUsersTableName."` SET `user_type`='NORMAL' WHERE `group_in`=? AND `user_type`='GROUP_ADMIN'";
+            $query="UPDATE `".$cfUsersTableName."` SET `user_type`='NORMAL' WHERE `in_group`=? AND `user_type`='GROUP_ADMIN'";
             $prepareStmt=mysqli_prepare($conn,$query);
             if(!$prepareStmt){
                 return array(
@@ -665,7 +665,7 @@
             }
 
             # changing the group of all the users to 0
-            $query="UPDATE `".$cfUsersTableName."` SET `in_group`=0 WHERE `group_in`=?";
+            $query="UPDATE `".$cfUsersTableName."` SET `in_group`=0 WHERE `in_group`=?";
             $prepareStmt=mysqli_prepare($conn,$query);
             if(!$prepareStmt){
                 return array(
@@ -700,6 +700,7 @@
             
         }
         catch(Exception $e){
+            echo $e->getMessage();
             return array(
                 'status' => 'FAILED'
             );
