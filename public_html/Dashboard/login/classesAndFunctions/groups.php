@@ -642,5 +642,72 @@
         );
     }
 
+    function removeGroup($group_id){
+        global $host,$username,$password,$dbName;
+        global $cfGroupsTableName,$cfUsersTableName;
+        try{
+            $conn = mysqli_connect($host, $username, $password, $dbName);
+            #disconnecting the all the users from the group
+
+            #making the GROUP_ADMINS as normal users.
+            $query="UPDATE `".$cfUsersTableName."` SET `user_type`='NORMAL' WHERE `group_in`=? AND `user_type`='GROUP_ADMIN'";
+            $prepareStmt=mysqli_prepare($conn,$query);
+            if(!$prepareStmt){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            $prepareStmt->bind_param("i",$group_id);
+            if(!$prepareStmt->execute()){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+
+            # changing the group of all the users to 0
+            $query="UPDATE `".$cfUsersTableName."` SET `in_group`=0 WHERE `group_in`=?";
+            $prepareStmt=mysqli_prepare($conn,$query);
+            if(!$prepareStmt){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            $prepareStmt->bind_param("i",$group_id);
+            if(!$prepareStmt->execute()){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+
+            #deleting the group from the group tables
+            $query = "DELETE FROM `".$cfGroupsTableName."` WHERE `id`=?";
+            $prepareStmt=mysqli_prepare($conn,$query);
+            if(!$prepareStmt){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            $prepareStmt->bind_param("i",$group_id);
+            if(!$prepareStmt->execute()){
+                return array(
+                    'status' => 'FAILED'
+                );
+            }
+            return array(
+                    'status' => 'SUCCESS'
+            );
+            
+            
+        }
+        catch(Exception $e){
+            return array(
+                'status' => 'FAILED'
+            );
+        }
+        return array(
+            'status' => 'FAILED'
+        );
+    }
+
 
 ?>
