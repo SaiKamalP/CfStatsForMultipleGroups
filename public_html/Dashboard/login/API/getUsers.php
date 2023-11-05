@@ -59,7 +59,7 @@
                         "name"=>$user['name'],
                         "cf_handle"=>$user['cf_handle'],
                         "rating"=>$user['rating'],
-                        "in_group"=>$$user['in_group'],
+                        "in_group"=>$user['in_group'],
                         "group_id"=>$user['group_id'],
                         "user_type"=>$user['user_type']
                     ));
