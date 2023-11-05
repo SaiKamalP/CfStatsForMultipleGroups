@@ -2,6 +2,7 @@
     require_once __DIR__."/../classesAndFunctions/jwsTokenVerification.php";
     require_once __DIR__."/../classesAndFunctions/getUsers.php";
     require_once __DIR__."/../classesAndFunctions/getUserType.php";
+    
     header('Content-Type: application/json');
 
     function returnFailedStatus()
@@ -70,7 +71,6 @@
     $responce["status"]="SUCCESS";
     $jsonresponce=json_encode($responce);
     echo $jsonresponce;
-    mysqli_close($conn);
     exit;
 
 ?>
