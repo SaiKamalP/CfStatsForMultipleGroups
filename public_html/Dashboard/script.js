@@ -110,7 +110,6 @@ function onSubmitAddGroup(token) {
         group_tile_clone.querySelector('.group-title').innerHTML=group['name'];
         group_tile_clone.querySelector('.group-description').innerHTML=group['description'];
         const groupId=group['id'];
-        console.log(groupId);
         group_tile_clone.querySelector('.group-tile-options-btn-outer').addEventListener('click',function(event){
             event.stopPropagation();
             showGroupOptions(groupId);
