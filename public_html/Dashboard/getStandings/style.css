@@ -1,6 +1,7 @@
 *{
     margin:0px;
     box-sizing: border-box;
+    print-color-adjust: exact;
 }
 html{
     font-size: 1em;
